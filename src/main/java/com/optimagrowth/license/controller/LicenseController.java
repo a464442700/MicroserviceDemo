@@ -2,7 +2,8 @@ package com.optimagrowth.license.controller;
 
 import java.util.Locale;
 import java.util.Random;
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import com.optimagrowth.license.service.LicenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +22,12 @@ public class LicenseController {
                                               @PathVariable("licenseId") String licenseId) {
 
         License license = licenseService.getLicense(licenseId, organizationId);
-//        license.add(
-//                linkTo(methodOn(LicenseController.class).getLicense(organizationId, license.getLicenseId())).withSelfRel(),
-//                linkTo(methodOn(LicenseController.class).createLicense(organizationId, license, null)).withRel("createLicense"),
-//                linkTo(methodOn(LicenseController.class).updateLicense(organizationId, license)).withRel("updateLicense"),
-//                linkTo(methodOn(LicenseController.class).deleteLicense(organizationId, license.getLicenseId())).withRel("deleteLicense")
-//        );
+        license.add(
+                linkTo(methodOn(LicenseController.class).getLicense(organizationId, license.getLicenseId())).withSelfRel(),
+                linkTo(methodOn(LicenseController.class).createLicense(organizationId, license, null)).withRel("createLicense api"),
+                linkTo(methodOn(LicenseController.class).updateLicense(organizationId, license)).withRel("updateLicense api"),
+                linkTo(methodOn(LicenseController.class).deleteLicense(organizationId, license.getLicenseId())).withRel("deleteLicense api")
+        );
 
         return ResponseEntity.ok(license);
     }
